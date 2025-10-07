@@ -7,7 +7,7 @@ hero:
   text: "Easily self host your stuff"
   tagline: The all-in-one declarative system for self hosting
   image:
-    src: /public/ray-screenshot.png
+    src: /ray-screenshot.png
     alt: VitePress
   actions:
     - theme: brand

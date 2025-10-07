@@ -8,7 +8,7 @@ export default defineConfig({
   description: "Easily self host your stuff",
   appearance: "force-dark",
   themeConfig: {
-    logo: "/public/pyramid.png",
+    logo: "/pyramid.png",
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'docs', link: '/docs' },
