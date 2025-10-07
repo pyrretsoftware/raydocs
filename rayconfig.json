@@ -1,0 +1,22 @@
+{
+  "Version" : "v1",
+  "Pipeline" : [
+    {
+      "Tool" : "npm",
+      "Command" : ["install"],
+      "Type" : "build"
+    }, 
+    {
+      "Tool" : "npm",
+      "Command" : ["run", "vp:build"],
+      "Type" : "build"
+    },
+    {
+      "Tool" : "rayserve",
+      "Type" : "build",
+      "Options" : {
+        "Dir" : "./.vitepress/dist"
+      }
+    }
+  ]
+}
