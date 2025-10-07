@@ -13,7 +13,7 @@
     },
     {
       "Tool" : "rayserve",
-      "Type" : "build",
+      "Type" : "deploy",
       "Options" : {
         "Dir" : "./.vitepress/dist"
       }
