@@ -102,13 +102,13 @@ rayutil is an optional feature of ray to have a small JS bundle be inserted alon
 
 <figure style="width: max-content;"><img src="./rayutil.png" alt=""><figcaption style="text-align: center; margin-top: 0.25rem;">Example of rayutil notification</figcaption></figure>
 
-## NotWebsite
-A lot of times you may want to run services that are not websites, just use the NotWebsite flag in your project config:
+## NonNetworked
+A lot of times you may want to run services that are not websites, for that use the NonNetworked flag in your project config:
 
 ```json
 {
   "Version" : "v1",
-  "NotWebsite" : true,
+  "NonNetworked" : true,
   "Pipeline" : [] //...
 }
 ```

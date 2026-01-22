@@ -48,6 +48,13 @@ export default defineConfig({
             ]
           },
         ]
+      },
+      {
+        text: 'Reference',
+        items: [
+          { text: 'Ray config', link: '/reference/rayconfig' },
+          { text: 'Project config', link: '/reference/projectconfig' }
+        ]
       }
     ],
 
