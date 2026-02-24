@@ -50,7 +50,18 @@ export default defineConfig({
         ]
       },
       {
-        text: 'Reference',
+        text: 'Features',
+        link: '/features/',
+        items: [
+          { text: 'Different deployments', link: '/features/deployments' },
+          { text: 'TLS (HTTPS)', link: '/features/tls' },
+          { text: 'Plugins', link: '/features/plugins' },
+          { text: 'Middleware', link: '/features/middleware' },
+          { text: 'Rayutil', link: '/features/rayutil' }
+        ]
+      },
+      {
+        text: 'Configuration reference',
         items: [
           { text: 'Ray config', link: '/reference/rayconfig' },
           { text: 'Project config', link: '/reference/projectconfig' }
