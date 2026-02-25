@@ -28,7 +28,6 @@ export default defineConfig({
               { text: 'Project configuration', link: '/guides/deploying-a-project/project-config' },
               { text: 'Making your app ray compatible', link: '/guides/deploying-a-project/ray-compatible' },
               { text: 'Editing your ray config', link: '/guides/deploying-a-project/ray-config' },
-              { text: 'Extending your project with ray features', link: '/guides/deploying-a-project/more' }
             ]
           },
           {
