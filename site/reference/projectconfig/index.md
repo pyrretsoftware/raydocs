@@ -40,16 +40,19 @@ Special options for a pipeline step.
 ```json
 // Note that this is not a proper example, but just shows docs in JSON form
 {
-  "Dir": "", //Directory to run tool in
   "IfAvailable": false, //Whether or the step is optional based on if its available on the current system.
   "EnvVar": {
     "": ""
   }, //Enviroment variables to pass the tool
   "RayserveRedirects": , //Redirects if Tool is "rayserve"
-  "RayserveDisableDirListing": false //Whether or not to disable rayserve directory listings if Tool is "rayserve"
+  "RayserveDisableDirListing": false, //Whether or not to disable rayserve directory listings if Tool is "rayserve"
+  "Dir": "" //Directory to run tool in
 }
 ```
 :::
+#### Dir ``string``
+Directory to run tool in
+
 #### IfAvailable ``bool``
 Whether or the step is optional based on if its available on the current system.
 
@@ -61,9 +64,6 @@ Redirects if Tool is "rayserve"
 
 #### RayserveDisableDirListing ``bool``
 Whether or not to disable rayserve directory listings if Tool is "rayserve"
-
-#### Dir ``string``
-Directory to run tool in
 
 ## PipelineStep
 Step in pipeline. See [this page](https://ray.pyrret.com/guides/deploying-a-project/project-config.html)
@@ -81,17 +81,17 @@ Step in pipeline. See [this page](https://ray.pyrret.com/guides/deploying-a-proj
 }
 ```
 :::
-#### Options [``PipelineOptions``](#PipelineOptions)
-Special options
-
-#### Tool ``string``
-Built in tool or binary in %PATH%
-
 #### Command ``[]string``
 Arguments to pass to tool
 
 #### Type ``string``
 Type of step, possible vals are "build" and "deploy".
+
+#### Options [``PipelineOptions``](#PipelineOptions)
+Special options
+
+#### Tool ``string``
+Built in tool or binary in %PATH%
 
 ## ProjectConfig
 
@@ -99,20 +99,14 @@ Type of step, possible vals are "build" and "deploy".
 ```json
 // Note that this is not a proper example, but just shows docs in JSON form
 {
-  "NonNetworked": false, //Disables ray router for this project and does not expect the process to listen on RAY_PORT or RAY_SOCK_PATH
   "PluginImplementation": "", //The plugin this project implements, if any. Note that due to historical reasons each deployment in a project needs to have the same PluginImplementation.
   "Pipeline": , //Deployment pipeline. See [this page](https://ray.pyrret.com/guides/deploying-a-project/project-config.html)
   "Version": "", //Config version, latest is "v1-networked". Other versions are "v1"
-  "LenientPorts": false //Whether to not care if another process uses RAY_PORT than the one started by ray. Needed if the deploy step are starting child processes.
+  "LenientPorts": false, //Whether to not care if another process uses RAY_PORT than the one started by ray. Needed if the deploy step are starting child processes.
+  "NonNetworked": false //Disables ray router for this project and does not expect the process to listen on RAY_PORT or RAY_SOCK_PATH
 }
 ```
 :::
-#### Pipeline [``[]PipelineStep``](#PipelineStep)
-Deployment pipeline. See [this page](https://ray.pyrret.com/guides/deploying-a-project/project-config.html)
-
-#### Version ``string``
-Config version, latest is "v1-networked". Other versions are "v1"
-
 #### LenientPorts ``bool``
 Whether to not care if another process uses RAY_PORT than the one started by ray. Needed if the deploy step are starting child processes.
 
@@ -122,6 +116,12 @@ Disables ray router for this project and does not expect the process to listen o
 #### PluginImplementation ``string``
 The plugin this project implements, if any. Note that due to historical reasons each deployment in a project needs to have the same PluginImplementation.
 
+#### Pipeline [``[]PipelineStep``](#PipelineStep)
+Deployment pipeline. See [this page](https://ray.pyrret.com/guides/deploying-a-project/project-config.html)
+
+#### Version ``string``
+Config version, latest is "v1-networked". Other versions are "v1"
+
 ## RayserveRedirect
 Redirect for rayserve
 
@@ -129,9 +129,9 @@ Redirect for rayserve
 ```json
 // Note that this is not a proper example, but just shows docs in JSON form
 {
-  "Temporary": false, //If this is true HTTP status code 302 is used, otherwise 301.
   "Path": "", //Where to redirect from
-  "Destination": "" //Where to redirect to
+  "Destination": "", //Where to redirect to
+  "Temporary": false //If this is true HTTP status code 302 is used, otherwise 301.
 }
 ```
 :::

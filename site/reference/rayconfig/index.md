@@ -33,123 +33,23 @@ Note that when setting a byte array ([]byte) in JSON, you will need to use a bas
 # Reference
 The base struct for this page is rayconfig.
 
-## Project (project)
-A project
+## Webhook (webhook)
+A monitoring webhook
 
 ::: details View JSON documentation
 ```json
 // Note that this is not a proper example, but just shows docs in JSON form
 {
-  "CompatibilityMode": "", //Special compatibility mode for this project. Enum, may be set to "docker". Do not set if using standard ray build system.
-  "DockerOptions": , //Special options when using DCM (Docker Compatability Mode)
-  "DeployOn": [
-    ""
-  ], //RLS servers to deploy this project onto. Use "local" for the local server. If left blank, it is set to ["local"].
-  "EnvVars": {
-    "": ""
-  }, //Enviroument variables, use for secrets or simple configuration.
-  "Files": , //Files declare files that will be created or zips that will be extracted in a deployments directory before the build process. Use for configuration files.
-  "PluginImplementation": "", //The plugin this project implements, if any. It's HIGHLY recommended to not avoid this and instead use the project config's PluginImplementation field. Setting this field instead of the project config's field works very weird internally and will/can cause quirks especially with RLS.
-  "Options": {
-    "": ""
-  }, //Special options, used for a couple of different obscure options.
-  "Middleware": "", //Tells ray router to proxy request to this project somewhere else (eg. localhost:3000).
-  "ForcedRenrollment": 0, //Any user enrolled into a channel before this timestamp will be renrolled into a new channel. Unix time.
-  "Src": "", //Url of the git repository of the project (eg. https://github.com/pyrretsoftware/ray) or the image refrence if using DCM (eg. glanceapp/glance)
-  "Name": "", //Unique name of the project
-  "Domain": "", //Host where your project will be accessible at, matched by ray router against the http Host header. Do not set if NonNetworked.
-  "Deployments": , //List of deployments. [See this page.](https://ray.pyrret.com/guides/deploying-a-project/more.html#different-deployments)
-  "ProdType": "" //Type of the production deployment, works the same as deployment.Type.
+  "Type": "", //Type of webhook. enum, either "discord", "slack" or "generic"
+  "Url": "" //Webhook url
 }
 ```
 :::
-#### EnvVars ``map[string]string``
-Enviroument variables, use for secrets or simple configuration.
+#### Type ``string``
+Type of webhook. enum, either "discord", "slack" or "generic"
 
-#### Files [``[]ProjectFile``](#file-projectfile)
-Files declare files that will be created or zips that will be extracted in a deployments directory before the build process. Use for configuration files.
-
-#### PluginImplementation ``string``
-::: warning
-This property is deprecated, it's highly recommended to avoid it.
-:::
-The plugin this project implements, if any. It's HIGHLY recommended to not avoid this and instead use the project config's PluginImplementation field. Setting this field instead of the project config's field works very weird internally and will/can cause quirks especially with RLS.
-
-#### Options ``map[string]string``
-::: warning
-This property is deprecated, it's highly recommended to avoid it.
-:::
-Special options, used for a couple of different obscure options.
-
-#### Middleware ``string``
-Tells ray router to proxy request to this project somewhere else (eg. localhost:3000).
-
-#### ForcedRenrollment ``int64``
-Any user enrolled into a channel before this timestamp will be renrolled into a new channel. Unix time.
-
-#### Src ``string``
-Url of the git repository of the project (eg. https://github.com/pyrretsoftware/ray) or the image refrence if using DCM (eg. glanceapp/glance)
-
-#### Name ``string``
-Unique name of the project
-
-#### Domain ``string``
-Host where your project will be accessible at, matched by ray router against the http Host header. Do not set if NonNetworked.
-
-#### Deployments [``[]deployment``](#channel-deployment)
-List of deployments. [See this page.](https://ray.pyrret.com/guides/deploying-a-project/more.html#different-deployments)
-
-#### ProdType ``string``
-Type of the production deployment, works the same as deployment.Type.
-
-#### CompatibilityMode ``string``
-Special compatibility mode for this project. Enum, may be set to "docker". Do not set if using standard ray build system.
-
-#### DockerOptions [``DockerOptions``](#docker-options-dockeroptions)
-Special options when using DCM (Docker Compatability Mode)
-
-#### DeployOn ``[]string``
-RLS servers to deploy this project onto. Use "local" for the local server. If left blank, it is set to ["local"].
-
-## Git Authentication Config (gitAuth)
-Used to configure HTTP git authentication for automatic updates
-
-::: details View JSON documentation
-```json
-// Note that this is not a proper example, but just shows docs in JSON form
-{
-  "Username": "", //HTTP basic auth username (use your username for github)
-  "Password": "" //HTTP basic auth password (use a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic) for github)
-}
-```
-:::
-#### Username ``string``
-HTTP basic auth username (use your username for github)
-
-#### Password ``string``
-HTTP basic auth password (use a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic) for github)
-
-## RLS Helper server (helperServer)
-For defining RLS Servers. See [this guide](https://ray.pyrret.com/guides/rls/)
-
-::: details View JSON documentation
-```json
-// Note that this is not a proper example, but just shows docs in JSON form
-{
-  "Host": "", //Where to connect for this server. Can be a private/public ip or a hostname/domain that resolves to an ip.
-  "Name": "", //Unique name.
-  "Weight": 0.00 //How many more requests the server should receive relative to the local server where the local server has a weight of 1.
-}
-```
-:::
-#### Host ``string``
-Where to connect for this server. Can be a private/public ip or a hostname/domain that resolves to an ip.
-
-#### Name ``string``
-Unique name.
-
-#### Weight ``float64``
-How many more requests the server should receive relative to the local server where the local server has a weight of 1.
+#### Url ``string``
+Webhook url
 
 ## Comline (HTTPComLine)
 Comlines allow you to access a ray server over the internet or from another program on the server.
@@ -166,6 +66,8 @@ Comlines allow you to access a ray server over the internet or from another prog
 }
 ```
 :::
+#### handler ````
+
 #### close ````
 
 #### Host ``string``
@@ -177,25 +79,29 @@ Either "tcp" for comlines over the internet or "unix" for unix sockets.
 #### ExtensionsEnabled ``bool``
 Whether or not the comline accepts extensions, this only has effect on unix comlines for security reasons.
 
-#### handler ````
-
-## Comline configuration (ComConfig)
-Comlines allow you to access a ray server over the internet or from another program on the server.
+## Docker Options (DockerOptions)
+Special docker-specific options for DCM
 
 ::: details View JSON documentation
 ```json
 // Note that this is not a proper example, but just shows docs in JSON form
 {
-  "Lines": , //Comlines of this server
-  "Keys":  //Comline keys
+  "NonNetworked": false, //Does the same thing as ProjectConfig's NonNetworked, that is disable ray router for this project and do not expect it to listen on RAY_PORT or RAY_SOCK_PATH
+  "ContainerPort": 0, //What port inside the container ray router should send requests to
+  "Volumes": {
+    "": ""
+  } //See [docker volumes](https://docs.docker.com/engine/storage/volumes/). The key of this map is the source file (use Ray Files to create this) and the values of this map are the mount points inside the container.
 }
 ```
 :::
-#### Keys [``[]Key``](#key-key)
-Comline keys
+#### NonNetworked ``bool``
+Does the same thing as ProjectConfig's NonNetworked, that is disable ray router for this project and do not expect it to listen on RAY_PORT or RAY_SOCK_PATH
 
-#### Lines [``[]HTTPComLine``](#comline-httpcomline)
-Comlines of this server
+#### ContainerPort ``int``
+What port inside the container ray router should send requests to
+
+#### Volumes ``map[string]string``
+See [docker volumes](https://docs.docker.com/engine/storage/volumes/). The key of this map is the source file (use Ray Files to create this) and the values of this map are the mount points inside the container.
 
 ## Channel (deployment)
 A channel/deployment is a version of a project based on a git branch. It is sometimes used synonymously with branch.
@@ -219,71 +125,105 @@ Type of channel, enum which can be set to "dev" (requires access to server to ac
 #### Enrollment ``float64``
 Percentage of user to enroll into the channel. Should not be set unless Type is "test"
 
-## Docker Options (DockerOptions)
-Special docker-specific options for DCM
+## File (ProjectFile)
+Ray Files are files that you can define in your config that will be placed in each deployments directory. This can be used for configuration files among other things.
 
 ::: details View JSON documentation
 ```json
 // Note that this is not a proper example, but just shows docs in JSON form
 {
-  "NonNetworked": false, //Does the same thing as ProjectConfig's NonNetworked, that is disable ray router for this project and do not expect it to listen on RAY_PORT or RAY_SOCK_PATH
-  "ContainerPort": 0, //What port inside the container ray router should send requests to
-  "Volumes": {
+  "Type": "", //Type of file, either "zip" for zips or ommited for regular files
+  "Blob": , //Base64 blob for the file. This may be in any format for regular files but should be in zip format for zip files.
+  "Path": "" //Where the file should be placed relative to the deployment directory. When Type is set to "zip", this is the path of the directory the files will be unzipped to.
+}
+```
+:::
+#### Type ``string``
+Type of file, either "zip" for zips or ommited for regular files
+
+#### Blob ``[]byte``
+Base64 blob for the file. This may be in any format for regular files but should be in zip format for zip files.
+
+#### Path ``string``
+Where the file should be placed relative to the deployment directory. When Type is set to "zip", this is the path of the directory the files will be unzipped to.
+
+## Project (project)
+A project
+
+::: details View JSON documentation
+```json
+// Note that this is not a proper example, but just shows docs in JSON form
+{
+  "ProdType": "", //Type of the production deployment, works the same as deployment.Type.
+  "DockerOptions": , //Special options when using DCM (Docker Compatability Mode)
+  "PluginImplementation": "", //The plugin this project implements, if any. It's HIGHLY recommended to not avoid this and instead use the project config's PluginImplementation field. Setting this field instead of the project config's field works very weird internally and will/can cause quirks especially with RLS.
+  "DeployOn": [
+    ""
+  ], //RLS servers to deploy this project onto. Use "local" for the local server. If left blank, it is set to ["local"].
+  "Middleware": "", //Tells ray router to proxy request to this project somewhere else (eg. localhost:3000).
+  "Name": "", //Unique name of the project
+  "EnvVars": {
     "": ""
-  } //See [docker volumes](https://docs.docker.com/engine/storage/volumes/). The key of this map is the source file (use Ray Files to create this) and the values of this map are the mount points inside the container.
+  }, //Enviroument variables, use for secrets or simple configuration.
+  "Domain": "", //Host where your project will be accessible at, matched by ray router against the http Host header. Do not set if NonNetworked.
+  "Deployments": , //List of deployments. [See this page.](https://ray.pyrret.com/guides/deploying-a-project/more.html#different-deployments)
+  "CompatibilityMode": "", //Special compatibility mode for this project. Enum, may be set to "docker". Do not set if using standard ray build system.
+  "Files": , //Files declare files that will be created or zips that will be extracted in a deployments directory before the build process. Use for configuration files.
+  "Options": {
+    "": ""
+  }, //Special options, used for a couple of different obscure options.
+  "ForcedRenrollment": 0, //Any user enrolled into a channel before this timestamp will be renrolled into a new channel. Unix time.
+  "Src": "" //Url of the git repository of the project (eg. https://github.com/pyrretsoftware/ray) or the image refrence if using DCM (eg. glanceapp/glance)
 }
 ```
 :::
-#### Volumes ``map[string]string``
-See [docker volumes](https://docs.docker.com/engine/storage/volumes/). The key of this map is the source file (use Ray Files to create this) and the values of this map are the mount points inside the container.
+#### Domain ``string``
+Host where your project will be accessible at, matched by ray router against the http Host header. Do not set if NonNetworked.
 
-#### NonNetworked ``bool``
-Does the same thing as ProjectConfig's NonNetworked, that is disable ray router for this project and do not expect it to listen on RAY_PORT or RAY_SOCK_PATH
+#### Deployments [``[]deployment``](#channel-deployment)
+List of deployments. [See this page.](https://ray.pyrret.com/guides/deploying-a-project/more.html#different-deployments)
 
-#### ContainerPort ``int``
-What port inside the container ray router should send requests to
+#### CompatibilityMode ``string``
+Special compatibility mode for this project. Enum, may be set to "docker". Do not set if using standard ray build system.
 
-## Ray Config (rayconfig)
-The thing you configure ray with, the file is usually located at /usr/bin/ray-env/rayconfig.json on Linux.
+#### Files [``[]ProjectFile``](#file-projectfile)
+Files declare files that will be created or zips that will be extracted in a deployments directory before the build process. Use for configuration files.
 
-::: details View JSON documentation
-```json
-// Note that this is not a proper example, but just shows docs in JSON form
-{
-  "Com": , //Comline config
-  "Projects": , //This ray servers projects
-  "TLS": , //Configuration for TLS (HTTPS)
-  "EnableRayUtil": false, //Enables rayutil. See [this page](https://ray.pyrret.com/guides/deploying-a-project/more.html#rayutil)
-  "GitAuth": , //Git Authentication Config
-  "RLSConfig": , //RLS Config. See [this guide](https://ray.pyrret.com/guides/rls/)
-  "AutofixDisabled": false, //Whether or not to disable ray's catastrophe prevention mechanism autofix,
-  "Monitoring":  //Monitoring conifg
-}
-```
+#### Options ``map[string]string``
+::: warning
+This property is deprecated, it's highly recommended to avoid it.
 :::
-#### AutofixDisabled ``bool``
-Whether or not to disable ray's catastrophe prevention mechanism autofix,
+Special options, used for a couple of different obscure options.
 
-#### Monitoring [``monitoringConfig``](#monitoring-config-monitoringconfig)
-Monitoring conifg
+#### ForcedRenrollment ``int64``
+Any user enrolled into a channel before this timestamp will be renrolled into a new channel. Unix time.
 
-#### Com [``ComConfig``](#comline-configuration-comconfig)
-Comline config
+#### Src ``string``
+Url of the git repository of the project (eg. https://github.com/pyrretsoftware/ray) or the image refrence if using DCM (eg. glanceapp/glance)
 
-#### Projects [``[]project``](#project-project)
-This ray servers projects
+#### ProdType ``string``
+Type of the production deployment, works the same as deployment.Type.
 
-#### TLS [``tlsConfig``](#tls-config-tlsconfig)
-Configuration for TLS (HTTPS)
+#### DockerOptions [``DockerOptions``](#docker-options-dockeroptions)
+Special options when using DCM (Docker Compatability Mode)
 
-#### EnableRayUtil ``bool``
-Enables rayutil. See [this page](https://ray.pyrret.com/guides/deploying-a-project/more.html#rayutil)
+#### PluginImplementation ``string``
+::: warning
+This property is deprecated, it's highly recommended to avoid it.
+:::
+The plugin this project implements, if any. It's HIGHLY recommended to not avoid this and instead use the project config's PluginImplementation field. Setting this field instead of the project config's field works very weird internally and will/can cause quirks especially with RLS.
 
-#### GitAuth [``gitAuth``](#git-authentication-config-gitauth)
-Git Authentication Config
+#### DeployOn ``[]string``
+RLS servers to deploy this project onto. Use "local" for the local server. If left blank, it is set to ["local"].
 
-#### RLSConfig [``rlsConfig``](#rls-config-rlsconfig)
-RLS Config. See [this guide](https://ray.pyrret.com/guides/rls/)
+#### Middleware ``string``
+Tells ray router to proxy request to this project somewhere else (eg. localhost:3000).
+
+#### Name ``string``
+Unique name of the project
+
+#### EnvVars ``map[string]string``
+Enviroument variables, use for secrets or simple configuration.
 
 ## TLS Config (tlsConfig)
 TLS configuration options
@@ -307,41 +247,23 @@ The certificate in PEM format. Only used when provider is custom.
 #### PrivateKey ``string``
 The private key in PEM format. Only used when provider is custom.
 
-## RLS config (rlsConfig)
-For configuring RLS. See [this guide](https://ray.pyrret.com/guides/rls/)
+## Git Authentication Config (gitAuth)
+Used to configure HTTP git authentication for automatic updates
 
 ::: details View JSON documentation
 ```json
 // Note that this is not a proper example, but just shows docs in JSON form
 {
-  "Helpers": , //Helper servers
-  "Enabled": false //Whether or not to enable RLS. Must be true if Helper servers are defined.
+  "Username": "", //HTTP basic auth username (use your username for github)
+  "Password": "" //HTTP basic auth password (use a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic) for github)
 }
 ```
 :::
-#### Helpers [``[]helperServer``](#rls-helper-server-helperserver)
-Helper servers
+#### Username ``string``
+HTTP basic auth username (use your username for github)
 
-#### Enabled ``bool``
-Whether or not to enable RLS. Must be true if Helper servers are defined.
-
-## Webhook (webhook)
-A monitoring webhook
-
-::: details View JSON documentation
-```json
-// Note that this is not a proper example, but just shows docs in JSON form
-{
-  "Url": "", //Webhook url
-  "Type": "" //Type of webhook. enum, either "discord", "slack" or "generic"
-}
-```
-:::
-#### Type ``string``
-Type of webhook. enum, either "discord", "slack" or "generic"
-
-#### Url ``string``
-Webhook url
+#### Password ``string``
+HTTP basic auth password (use a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic) for github)
 
 ## Monitoring config (monitoringConfig)
 Monitoring notifies you when things happen to your servers
@@ -350,11 +272,11 @@ Monitoring notifies you when things happen to your servers
 ```json
 // Note that this is not a proper example, but just shows docs in JSON form
 {
-  "Webhooks": , //List of monitoring webhooks
   "TriggerOn": [
     ""
   ], //What events to trigger on, can contain "all", or event names (eg. "processError")
-  "CatMode": false //Whether or not to send a cat picture along monitoring information (discord only).
+  "CatMode": false, //Whether or not to send a cat picture along monitoring information (discord only).
+  "Webhooks":  //List of monitoring webhooks
 }
 ```
 :::
@@ -374,12 +296,12 @@ Comline authentication key
 ```json
 // Note that this is not a proper example, but just shows docs in JSON form
 {
+  "DisplayName": "", //A display name for the key, like who or what uses it.
   "Type": "", //For features coming later, always set to 'hardcode' for now
   "Key": "", //The key as a string, if type is "hardcode".
   "Permissons": [
     ""
-  ], //List of permissons this key has. The key defaults to no permissons. If this includes "special:all", all permsissons are given, but remember [the principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege)
-  "DisplayName": "" //A display name for the key, like who or what uses it.
+  ] //List of permissons this key has. The key defaults to no permissons. If this includes "special:all", all permsissons are given, but remember [the principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege)
 }
 ```
 :::
@@ -395,25 +317,103 @@ List of permissons this key has. The key defaults to no permissons. If this incl
 #### DisplayName ``string``
 A display name for the key, like who or what uses it.
 
-## File (ProjectFile)
-Ray Files are files that you can define in your config that will be placed in each deployments directory. This can be used for configuration files among other things.
+## Comline configuration (ComConfig)
+Comlines allow you to access a ray server over the internet or from another program on the server.
 
 ::: details View JSON documentation
 ```json
 // Note that this is not a proper example, but just shows docs in JSON form
 {
-  "Path": "", //Where the file should be placed relative to the deployment directory. When Type is set to "zip", this is the path of the directory the files will be unzipped to.
-  "Type": "", //Type of file, either "zip" for zips or ommited for regular files
-  "Blob":  //Base64 blob for the file. This may be in any format for regular files but should be in zip format for zip files.
+  "Lines": , //Comlines of this server
+  "Keys":  //Comline keys
 }
 ```
 :::
-#### Path ``string``
-Where the file should be placed relative to the deployment directory. When Type is set to "zip", this is the path of the directory the files will be unzipped to.
+#### Lines [``[]HTTPComLine``](#comline-httpcomline)
+Comlines of this server
 
-#### Type ``string``
-Type of file, either "zip" for zips or ommited for regular files
+#### Keys [``[]Key``](#key-key)
+Comline keys
 
-#### Blob ``[]byte``
-Base64 blob for the file. This may be in any format for regular files but should be in zip format for zip files.
+## RLS Helper server (helperServer)
+For defining RLS Servers. See [this guide](https://ray.pyrret.com/guides/rls/)
+
+::: details View JSON documentation
+```json
+// Note that this is not a proper example, but just shows docs in JSON form
+{
+  "Host": "", //Where to connect for this server. Can be a private/public ip or a hostname/domain that resolves to an ip.
+  "Name": "", //Unique name.
+  "Weight": 0.00 //How many more requests the server should receive relative to the local server where the local server has a weight of 1.
+}
+```
+:::
+#### Host ``string``
+Where to connect for this server. Can be a private/public ip or a hostname/domain that resolves to an ip.
+
+#### Name ``string``
+Unique name.
+
+#### Weight ``float64``
+How many more requests the server should receive relative to the local server where the local server has a weight of 1.
+
+## RLS config (rlsConfig)
+For configuring RLS. See [this guide](https://ray.pyrret.com/guides/rls/)
+
+::: details View JSON documentation
+```json
+// Note that this is not a proper example, but just shows docs in JSON form
+{
+  "Helpers": , //Helper servers
+  "Enabled": false //Whether or not to enable RLS. Must be true if Helper servers are defined.
+}
+```
+:::
+#### Helpers [``[]helperServer``](#rls-helper-server-helperserver)
+Helper servers
+
+#### Enabled ``bool``
+Whether or not to enable RLS. Must be true if Helper servers are defined.
+
+## Ray Config (rayconfig)
+The thing you configure ray with, the file is usually located at /usr/bin/ray-env/rayconfig.json on Linux.
+
+::: details View JSON documentation
+```json
+// Note that this is not a proper example, but just shows docs in JSON form
+{
+  "Projects": , //This ray servers projects
+  "TLS": , //Configuration for TLS (HTTPS)
+  "EnableRayUtil": false, //Enables rayutil. See [this page](https://ray.pyrret.com/guides/deploying-a-project/more.html#rayutil)
+  "GitAuth": , //Git Authentication Config
+  "RLSConfig": , //RLS Config. See [this guide](https://ray.pyrret.com/guides/rls/)
+  "AutofixDisabled": false, //Whether or not to disable ray's catastrophe prevention mechanism autofix,
+  "Monitoring": , //Monitoring conifg
+  "Com":  //Comline config
+}
+```
+:::
+#### Com [``ComConfig``](#comline-configuration-comconfig)
+Comline config
+
+#### Projects [``[]project``](#project-project)
+This ray servers projects
+
+#### TLS [``tlsConfig``](#tls-config-tlsconfig)
+Configuration for TLS (HTTPS)
+
+#### EnableRayUtil ``bool``
+Enables rayutil. See [this page](https://ray.pyrret.com/guides/deploying-a-project/more.html#rayutil)
+
+#### GitAuth [``gitAuth``](#git-authentication-config-gitauth)
+Git Authentication Config
+
+#### RLSConfig [``rlsConfig``](#rls-config-rlsconfig)
+RLS Config. See [this guide](https://ray.pyrret.com/guides/rls/)
+
+#### AutofixDisabled ``bool``
+Whether or not to disable ray's catastrophe prevention mechanism autofix,
+
+#### Monitoring [``monitoringConfig``](#monitoring-config-monitoringconfig)
+Monitoring conifg
 
