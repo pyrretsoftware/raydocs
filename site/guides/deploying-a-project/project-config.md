@@ -6,7 +6,7 @@ Create a file in the root of your projects git repository called `ray.config.jso
 
 ```json
 {
-  "Version" : "v1",
+  "Version" : "v1-networked",
   "Pipeline" : [
     {
       "Tool" : "npm",
@@ -30,7 +30,7 @@ In the example above, we use the node and npm tools that need to be installed, b
 You can also specify some options for each pipeline step:
 ```json
 {
-  "Version" : "v1",
+  "Version" : "v1-networked",
   "Pipeline" : [
     {
       "Tool" : "npm",
